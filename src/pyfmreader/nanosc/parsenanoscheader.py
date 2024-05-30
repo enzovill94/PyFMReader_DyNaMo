@@ -139,6 +139,9 @@ def parseNANOSCheader(filepath):
             
             # ForceList position fields
             elif position == 'ForceList':
+                #as it is not a PFC setting the bool to false; avoids key error  
+                header['peakforce'] = 0
+
                 if '\\Trigger mode:' in line:
                     header['trigger_mode'] = getstring(line)
                 elif '\\force/line' in line:
