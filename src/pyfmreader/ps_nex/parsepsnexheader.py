@@ -72,6 +72,8 @@ def parsePSNEXheader(filepath):
     #invols 
     
     file_metadata["invOLS_(nm/V)"] = float(ps_nex_meta.get("invOLS_(nm/V)"))
+    file_metadata["defl_sens_nmbyV"] = float(ps_nex_meta.get("invOLS_(nm/V)"))
+
 
     #stage sentivities and gains and angle 
     file_metadata["system_mount_angle_(deg)"] = float(ps_nex_meta.get("system_mount_angle_(deg)"))
@@ -105,6 +107,8 @@ def parsePSNEXheader(filepath):
     file_metadata["cantilever_resonance_frequency_calib_(Hz)"] = float(ps_nex_meta.get("cantilever_resonance_frequency_calib_(Hz)"))
     file_metadata["cantilever_spring_constant_calib_N/m"] = float(ps_nex_meta.get("cantilever_spring_constant_calib_(N/m)"))
     file_metadata["cantilever_spring_constant_calib_pN/nm"] = 10**3*float(ps_nex_meta.get("cantilever_spring_constant_calib_(N/m)"))
+    
+    file_metadata["spring_const_Nbym"] = float(ps_nex_meta.get("cantilever_spring_constant_calib_(N/m)"))
 
     file_metadata["cantilever_spring_constant_nominal_(N/m)"] = float(ps_nex_meta.get("cantilever_spring_constant_nominal_(N/m)"))
     file_metadata["cantilever_quality_factor"] = float(ps_nex_meta.get("cantilever_quality_factor"))
