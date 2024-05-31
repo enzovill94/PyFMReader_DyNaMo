@@ -1,7 +1,7 @@
 # Pyfmreader
 
 Version DyNaMo
-
+CAN READ A PSNEX FILE  
 In development, not fully stable.
 If you find any issues please open an issue at:
 https://github.com/jlopezalo/PyFMReader/issues
