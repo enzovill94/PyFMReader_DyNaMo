@@ -40,7 +40,7 @@ def loadPSNEXcurve(file_metadata,curve_index = 0):
     tick_time_s = file_metadata['instrument_tick_time_(s)']
     force_curve = ForceCurve(curve_index, file_id)
 
-    curve_indices = file_metadata["number_consecutive_scans"] 
+    curve_indices = file_metadata["Entry_tot_nb_curve"] 
     num_segment = file_metadata['num_segments']
     index = 1 if curve_indices == 0 else 3
     
