@@ -13,9 +13,11 @@ yogesh.saravanan@inserm.fr
 ```
 pip install -e git+https://github.com/DyNaMo-INSERM/PyFMReader_DyNaMo@master#egg=pyfmreader_dynamo    
 
+```
 
 ## Usage
 ```
+
 from pyfmreader import loadfile
 
 NANOSC_FV_PATH = 'tests/testfiles/20200903_Egel2.0_00023.spm'
