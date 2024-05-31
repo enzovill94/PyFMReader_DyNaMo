@@ -8,6 +8,7 @@ from .jpk.loadjpkcurve import loadJPKcurve
 from .jpk.loadjpkimg import computeJPKPiezoImg
 from .nanosc.loadnanosccurve import loadNANOSCcurve
 from .nanosc.loadnanoscimg import loadNANOSCimg
+from .ps_nex.loadpsnexcurve import loadPSNEXcurve
 from .load_uff import loadUFFcurve
 from .save_uff import saveUFFtxt
 
@@ -47,6 +48,7 @@ class UFF:
             - JPK --> .jpk-force, .jpk-force-map, .jpk-qi-data
             - NANOSCOPE --> .spm, .pfc
             - UFF --> .uff
+            - PS-NEX --> .tdms 
 
                 Parameters:
                         curveidx (int): Index of curve to load.
@@ -65,6 +67,8 @@ class UFF:
             FC = loadNANOSCcurve(curveidx, self.filemetadata)
         elif file_type in ufffiles:
             FC = loadUFFcurve(self.filemetadata)
+        elif file_type in psnexfiles:
+            FC = loadPSNEXcurve(self.filemetadata,curveidx)    
         return FC
 
     def getcurve(self, curveidx):
@@ -75,6 +79,8 @@ class UFF:
             - JPK --> .jpk-force, .jpk-force-map, .jpk-qi-data
             - NANOSCOPE --> .spm, .pfc
             - UFF --> .uff
+            - PS-NEX --> .tdms 
+
 
                 Parameters:
                         curveidx (int): Index of curve to load.
@@ -91,6 +97,8 @@ class UFF:
             FC = self._loadcurve(curveidx, None, file_type)
         elif file_type in ufffiles:
             FC = self._loadcurve(None, None, file_type)
+        elif file_type in psnexfiles:
+            FC = self._loadcurve(curveidx, None, file_type)
         return FC
     
     def getpiezoimg(self):

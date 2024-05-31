@@ -7,6 +7,7 @@ from .constants import *
 from .jpk.loadjpkfile import loadJPKfile
 from .jpk.loadjpkthermalfile import loadJPKThermalFile
 from .nanosc.loadnanoscfile import loadNANOSCfile
+from .ps_nex.loadpsnexfile import loadPSNEXfile
 from .load_uff import loadUFFtxt
 from .uff import UFF
 
@@ -19,6 +20,7 @@ def loadfile(filepath):
         - JPK Thermal --> .tnd
         - NANOSCOPE --> .spm, .pfc, .00X
         - UFF --> .uff
+        - PS-NEX --> .tdms 
 
             Parameters:
                     filepath (str): Path to the file.
@@ -53,5 +55,9 @@ def loadfile(filepath):
     
     elif filesuffix in jpkthermalfiles:
         return loadJPKThermalFile(filepath)
+    
+    elif filesuffix in psnexfiles:
+        return loadPSNEXfile(filepath, UFF)
+    
     else:
         Exception(f"Can not load file: {filepath}")
