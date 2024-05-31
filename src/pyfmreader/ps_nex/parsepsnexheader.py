@@ -38,7 +38,7 @@ def parsePSNEXheader(filepath):
     file_metadata["file_size_bytes"] = os.path.getsize(filepath)
     file_metadata["file_id"] = ps_nex_meta["filename"]
     file_metadata["Entry_date"] = ps_nex_meta.get("date")
-    file_metadata["number_consecutive_scans"] = int(ps_nex_meta.get("number_consecutive_scans"))
+    file_metadata["Entry_tot_nb_curve"] = int(ps_nex_meta.get("number_consecutive_scans"))
 
     #Software version control
     file_metadata["psnex_file_format_version"] = ps_nex_meta.get("TDMS_HSFS_file_version")
