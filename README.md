@@ -1,16 +1,18 @@
 # Pyfmreader
 
+Version DyNaMo
+
 In development, not fully stable.
 If you find any issues please open an issue at:
 https://github.com/jlopezalo/PyFMReader/issues
 
 If you have any questions, contact:
-jla.lopez.18@gmail.com
+yogesh.saravanan@inserm.fr
 
 ## Installation
 ```
-pip install pyfmreader
-```
+pip install -e git+https://github.com/DyNaMo-INSERM/PyFMReader_DyNaMo@master#egg=pyfmreader_dynamo    
+
 
 ## Usage
 ```
