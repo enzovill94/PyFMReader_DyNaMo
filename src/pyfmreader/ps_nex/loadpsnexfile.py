@@ -6,7 +6,6 @@ Created on Thu Apr  4 18:07:01 2024
 @author: yogehs
 """
 from .parsepsnexheader import parsePSNEXheader, parsePSNEXsegmentheader
-from .uff import UFF
 
 def loadPSNEXfile(filepath, UFF):
     """
@@ -49,11 +48,6 @@ def loadPSNEXfile(filepath, UFF):
     UFF.filemetadata['file_type'] = 'PSNEX.tdms'
 
     return UFF
-def load_psnex_UFF(file_path):
-    print("created UFF PSNEX fiel ")
-    uffobj = UFF()
-    uffobj = loadPSNEXfile(file_path, uffobj)
-    
-    return(uffobj)    
+
 
     
