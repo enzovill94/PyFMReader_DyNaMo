@@ -57,7 +57,7 @@ def loadfile(filepath):
         return loadJPKThermalFile(filepath)
     
     elif filesuffix in psnexfiles:
-        return loadPSNEXfile(filepath, UFF)
+        return loadPSNEXfile(filepath, uffobj)
     
     else:
         Exception(f"Can not load file: {filepath}")

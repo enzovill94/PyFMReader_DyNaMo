@@ -19,7 +19,7 @@ def loadPSNEXfile(filepath, UFF):
                     UFF (uff.UFF): UFF object containing the loaded metadata.
     """
     UFF.filemetadata = parsePSNEXheader(filepath)
-    UFF.isFV = UFF.filemetadata["mapping_bool"]
+    #UFF.isFV = UFF.filemetadata["mapping_bool"]
     #key for the channel of ht and defleciton
 
     UFF.filemetadata['found_vDeflection'] = True
