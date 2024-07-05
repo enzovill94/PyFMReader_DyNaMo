@@ -25,6 +25,9 @@ def loadPARKfile(filepath, UFF):
     UFF.filemetadata = parsePARKheader(filepath)
     UFF.filemetadata['height_channel_key'] = 0
     UFF.filemetadata['deflection_chanel_key'] = 2
+    UFF.filemetadata['num_segments'] = 2
+
+
 
     UFF.isFV = bool(UFF.filemetadata['force_volume'])
     return UFF
