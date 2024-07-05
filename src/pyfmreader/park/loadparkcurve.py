@@ -49,11 +49,11 @@ def loadPARKcurve(file_metadata,curve_index = 0):
     index = 1 if curve_indices == 0 else 3
     
  
-    deflection = park_sys_FC[0][deflection_chanel_key]
-    height = park_sys_FC[0][height_channel_key]
+    deflection = park_sys_FC[0][int(deflection_chanel_key)]
+    height = park_sys_FC[0][int(height_channel_key)]
     
     deflection = deflection*file_metadata[f"chanel_info_{deflection_chanel_key}"]['gain'][0]
-    height = height *file_metadata[f"chanel_info_{height_channel_key}"]['gain'][0]
+    height = height *file_metadata[f"chanel_info_{height_channel_key}"]['gain'][0]* 10**-6
 
     N_mid = int(len(height)/2)
     
@@ -61,7 +61,8 @@ def loadPARKcurve(file_metadata,curve_index = 0):
     seg_pos_array =[(0,N_mid),(N_mid,len(height))]
     seg_type_arr = ['App','Ret']
     seg_dur_key = ['ramp_duration_forward','ramp_duration_reverse']
-    
+    seg_vel_key = ['speed_forward_nmbys','speed_reverse_nmbys']
+
         
 
     for segment_id in range(num_segment):
@@ -95,7 +96,7 @@ def loadPARKcurve(file_metadata,curve_index = 0):
         
         segment.force_setpoint = file_metadata['ForceLimitVolt']
         
-        #segment.velocity = segment.segment_metadata[f"segment_{segment_id}_ramp_speed_nm/s"]
+        segment.velocity =file_metadata[seg_vel_key[segment_id]]
         
         #segment.sampling_rate = segment.segment_metadata[f"segment_{segment_id}_sampling_rate_(S/s)"]
         #segment.z_displacement = segment.segment_metadata[f"segment_{segment_id}_Z_retract_length_(V)"]
