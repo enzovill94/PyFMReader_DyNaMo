@@ -102,7 +102,7 @@ class UFF:
             FC = self._loadcurve(curveidx, None, file_type)
         elif file_type in ufffiles:
             FC = self._loadcurve(None, None, file_type)
-        elif file_type in psnexfiles:
+        elif file_type in psnexfiles or file_type in parkfiles:
             FC = self._loadcurve(curveidx, None, file_type)
         return FC
     

@@ -72,7 +72,6 @@ def parsePARKheader(filepath):
         header['Entry_tot_nb_curve'] = 1
         
         
-    header['ramp_size_nm'] = header['ramp_size_V'] * header['zscan_sens_nmbyV']
     
     #TODO check unit
     header['speed_forward_nmbys'] = park_sys_meta['forwardSpeed'][0] 
@@ -88,10 +87,9 @@ def parsePARKheader(filepath):
     
     #has the gain informaiton  
     
-    channel_properties = {}
 
-    for channel_id in range(len(header['numOfChannels'])):
-        channel_properties[channel_id] = chanel_info[channel_id]
+    for channel_id in range(header['numOfChannels']):
+        header[f"chanel_info_{channel_id}"] = chanel_info[channel_id]
         
     #empty key for curve properties for a map 
     

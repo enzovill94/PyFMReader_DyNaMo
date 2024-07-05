@@ -15,7 +15,7 @@ import os
 import matplotlib.pyplot as plt 
 #%%
 root_folder = '/Users/yogehs/Downloads/Sudiksha_data_afm_23/park_system_files/'
-root_folder = '/Users/yogehs/Downloads/Sudiksha_data_afm_23/park_system_files/Map/Core/'
+#root_folder = '/Users/yogehs/Downloads/Sudiksha_data_afm_23/park_system_files/Map/Core/'
 park_file_names = [root_folder+f for f in os.listdir(root_folder) if f.endswith('.tiff')]#glob.glob('./*.jpk-force-map')
 park_file_names
 
@@ -36,9 +36,12 @@ FC = park_file.getcurve(0)
 # 6. Preprocess curve with the deflection sens in the header
 defl_sens = metadata['defl_sens_nmbyV'] / 1e09 # nm/V --> m/V
 FC.preprocess_force_curve(defl_sens, metadata['height_channel_key'])
+file_spring_constant = metadata['spring_const_Nbym']  # N/m
+
+FC.get_force_vs_indentation([0,0], file_spring_constant)
 plt.figure(figsize=(10,5))
 for segid, segment in FC.get_segments():
-    plt.plot(segment.zheight, segment.vdeflection, label=f'Segment: {segid}')
+    plt.plot(segment.zheight, segment.force, label=f'Segment: {segid}')
 plt.xlabel('zheight [m]')
 plt.ylabel('vdeflection [m]')
 plt.legend()
