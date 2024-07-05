@@ -11,7 +11,7 @@ yogesh.saravanan@inserm.fr
 
 ## Installation
 ```
-pip install -e git+https://github.com/DyNaMo-INSERM/PyFMReader_DyNaMo@master#egg=pyfmreader_dynamo    
+pip install -e git+https://github.com/DyNaMo-INSERM/PyFMReader_DyNaMo@iisc_park#egg=pyfmreader_dynamo    
 
 ```
 
