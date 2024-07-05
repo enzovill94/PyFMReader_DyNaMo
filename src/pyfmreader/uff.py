@@ -9,6 +9,8 @@ from .jpk.loadjpkimg import computeJPKPiezoImg
 from .nanosc.loadnanosccurve import loadNANOSCcurve
 from .nanosc.loadnanoscimg import loadNANOSCimg
 from .ps_nex.loadpsnexcurve import loadPSNEXcurve
+from .park.loadparkcurve import loadPARKcurve
+
 from .load_uff import loadUFFcurve
 from .save_uff import saveUFFtxt
 
@@ -69,6 +71,9 @@ class UFF:
             FC = loadUFFcurve(self.filemetadata)
         elif file_type in psnexfiles:
             FC = loadPSNEXcurve(self.filemetadata,curveidx)    
+        elif file_type in parkfiles:
+            print("trying to get a curve")
+            FC = loadPARKcurve(self.filemetadata,curveidx) 
         return FC
 
     def getcurve(self, curveidx):
