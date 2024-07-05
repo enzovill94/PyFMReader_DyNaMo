@@ -8,6 +8,9 @@ from .jpk.loadjpkfile import loadJPKfile
 from .jpk.loadjpkthermalfile import loadJPKThermalFile
 from .nanosc.loadnanoscfile import loadNANOSCfile
 from .ps_nex.loadpsnexfile import loadPSNEXfile
+
+from .park.loadparkfile import loadPARKfile
+
 from .load_uff import loadUFFtxt
 from .uff import UFF
 
@@ -55,6 +58,9 @@ def loadfile(filepath):
     
     elif filesuffix in jpkthermalfiles:
         return loadJPKThermalFile(filepath)
+    elif filesuffix in parkfiles:
+        print("trying to load park files ")
+        return loadPARKfile(filepath, uffobj)
     
     elif filesuffix in psnexfiles:
         return loadPSNEXfile(filepath, uffobj)
