@@ -23,8 +23,8 @@ def loadPARKfile(filepath, UFF):
                     UFF (uff.UFF): UFF object containing the loaded metadata.
     """
     UFF.filemetadata = parsePARKheader(filepath)
-    UFF.filemetadata['height_channel_key'] = 0
-    UFF.filemetadata['deflection_chanel_key'] = 2
+    UFF.filemetadata['height_channel_key'] = '0'
+    UFF.filemetadata['deflection_chanel_key'] = '2'
     UFF.filemetadata['num_segments'] = 2
 
 
