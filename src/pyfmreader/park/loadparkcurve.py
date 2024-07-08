@@ -30,10 +30,11 @@ def loadPARKcurve(file_metadata,curve_index = 0):
     """
     file_id = file_metadata['Entry_filename']
     curve_properties = file_metadata['curve_properties']
+    height_channel_key = file_metadata['height_channel_key']
+
     
-    
-    height_channel_key = 3*curve_index
-    deflection_chanel_key = 3*(curve_index+1)-1
+    height_curve_key = 3*curve_index
+    deflection_curve_key = 3*(curve_index+1)-1
     
     park_sys_file = tiffReader.TiffReader()
     # load the Data
@@ -49,11 +50,11 @@ def loadPARKcurve(file_metadata,curve_index = 0):
     index = 1 if curve_indices == 0 else 3
     
  
-    deflection = park_sys_FC[curve_index][int(deflection_chanel_key)]
-    height = park_sys_FC[curve_index][int(height_channel_key)]
+    deflection = park_sys_FC[curve_index][int(deflection_curve_key)]
+    height = park_sys_FC[curve_index][int(height_curve_key)]
     
-    deflection = deflection*file_metadata[f"chanel_info_{deflection_chanel_key}"]['gain'][0]
-    height = height *file_metadata[f"chanel_info_{height_channel_key}"]['gain'][0]* 10**-6
+    deflection = deflection*file_metadata[f"chanel_info_{2}"]['gain'][0]
+    height = height *file_metadata[f"chanel_info_{0}"]['gain'][0]* 10**-6
 
     N_mid = int(len(height)/2)
     
