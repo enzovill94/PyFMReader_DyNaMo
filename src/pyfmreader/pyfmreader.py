@@ -57,6 +57,7 @@ def loadfile(filepath):
         return loadJPKThermalFile(filepath)
     
     elif filesuffix in psnexfiles:
+        print("is the best")
         return loadPSNEXfile(filepath, uffobj)
     
     else:
