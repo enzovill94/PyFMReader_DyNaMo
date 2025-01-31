@@ -125,8 +125,8 @@ def loadNANOSCcurve(idx, header):
 
         # Assing data and metadata for Retract segment.
         retsegment.segment_formated_data = {
-            'height': ret_x * 1e-9,
-            'vDeflection': ret_defl_V,
+            'height': np.flip(ret_x) * 1e-9,
+            'vDeflection': np.flip(ret_defl_V),
             'time': np.linspace(0, reverse_duration, len(ret_x), endpoint=False)
         }
         retsegment.nb_point = len(ret_x)
