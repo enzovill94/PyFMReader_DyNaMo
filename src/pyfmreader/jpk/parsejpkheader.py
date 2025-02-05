@@ -62,8 +62,8 @@ def parseJPKheader(filepath, header_properties, shared_data_properties, filesuff
     file_metadata["num_x_pixels"] = int(header_properties.get(prefix + ".position-pattern.grid.ilength", multiplier_default))
     file_metadata["num_y_pixels"] = int(header_properties.get(prefix + ".position-pattern.grid.jlength", multiplier_default))
 
-    file_metadata["scan_size_x"] = float(header_properties.get(prefix + ".position-pattern.grid.ulength", offset_default)) * scaling_factor
-    file_metadata["scan_size_y"] = float(header_properties.get(prefix + ".position-pattern.grid.vlength", offset_default)) * scaling_factor
+    file_metadata["scan_size_x"] = float(header_properties.get(prefix + ".position-pattern.grid.ulength", offset_default)) #* scaling_factor
+    file_metadata["scan_size_y"] = float(header_properties.get(prefix + ".position-pattern.grid.vlength", offset_default)) #* scaling_factor
     
     file_metadata["z_closed_loop"] = header_properties.get(prefix + ".settings.force-settings.closed-loop", boolean_default)
     if file_metadata["z_closed_loop"] == "true": file_metadata["Recording_Z_close_loop_on"] = "On"

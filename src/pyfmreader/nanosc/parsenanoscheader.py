@@ -196,8 +196,10 @@ def parseNANOSCheader(filepath):
                     header['FV_data_length'] = getint(line)
                 elif '\\Samps/line:' in line:
                     header['FV_nb_sampsline'] = getint(line)
+                    header['num_x_pixels'] = getint(line)
                 elif '\\Number of lines:' in line:
                     header['FV_nb_lines'] = getint(line)
+                    header['num_y_pixels'] = getint(line)
                 elif '\\Data offset:' in line:
                     header['FV_ima_offset'] = getint(line)
                 elif '\\Scan Size:' in line:
@@ -208,6 +210,10 @@ def parseNANOSCheader(filepath):
                     elif units == '~m': mult = 1E-6
                     header['FV_ima_scanX'] = float(x) * mult
                     header['FV_ima_scanY'] = float(y) * mult
+
+                    header['scan_size_x'] = float(x) * mult
+                    header['scan_size_y'] = float(y) * mult
+                    
                 elif '\\@2:Z scale:' in line:
                     header['FV_Zsens'] = getfloat(line)
                 elif '\\Bytes/pixel' in line:
