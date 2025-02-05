@@ -211,8 +211,8 @@ def parseNANOSCheader(filepath):
                     header['FV_ima_scanX'] = float(x) * mult
                     header['FV_ima_scanY'] = float(y) * mult
 
-                    header['scan_size_x'] = float(x) * mult
-                    header['scan_size_y'] = float(y) * mult
+                    header['scan_size_x'] = round(float(x) * mult,10)
+                    header['scan_size_y'] = round(float(y) * mult,10)
                     
                 elif '\\@2:Z scale:' in line:
                     header['FV_Zsens'] = getfloat(line)
@@ -224,7 +224,7 @@ def parseNANOSCheader(filepath):
             header['Entry_tot_nb_curve'] = header['FV_nb_sampsline'] * header['FV_nb_lines']
         else:
             header['Entry_tot_nb_curve'] = 1
-        header['ramp_size_nm'] = header['ramp_size_V'] * header['zscan_sens_nmbyV']
+        header['ramp_size_nm'] = round(header['ramp_size_V'] * header['zscan_sens_nmbyV'],1)
         header['speed_forward_nmbys'] = header['speed_forward_Vbys'] * header['zscan_sens_nmbyV']
         header['speed_reverse_nmbys'] = header['speed_reverse_Vbys'] * header['zscan_sens_nmbyV']
         header['zstep_approach_nm'] = header['ramp_size_nm'] / header['nb_point_approach']
