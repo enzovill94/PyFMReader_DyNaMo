@@ -19,6 +19,7 @@ from ..utils.segment import Segment
  
 #from pyfmreader.utils.forcecurve import ForceCurve
 #from pyfmreader.utils.segment import Segment
+print("tits")
 
 def loadPSNEXcurve(file_metadata,curve_index = 0):
     """
