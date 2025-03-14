@@ -32,6 +32,8 @@ def loadPSNEXcurve(file_metadata,curve_index = 0):
             Returns:
                     force_curve (utils.forcecurve.ForceCurve): ForceCurve object containing the loaded data.
     """
+
+    print('test pull')
     file_id = file_metadata['Entry_filename']
     curve_properties = file_metadata['curve_properties']
     height_channel_key = file_metadata['height_channel_key']
