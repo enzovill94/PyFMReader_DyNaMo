@@ -41,9 +41,11 @@ def loadfile(filepath):
     """
     split_path = filepath.split(os.extsep)
     # Depending on the configuration of the OS, JPK files have the following
-    # extension: .jpk-force.zip
-    if split_path[-1] == 'zip': filesuffix = split_path[-2]
-    else: filesuffix = split_path[-1]
+    # extension: .jpk-force.zip psnex_map.map
+    if split_path[-1] == 'zip' or split_path[-1] == 'map':
+        filesuffix = split_path[-2]
+    else:
+        filesuffix = split_path[-1]
 
     uffobj = UFF()
 
@@ -63,6 +65,10 @@ def loadfile(filepath):
         return loadPARKfile(filepath, uffobj)
     
     elif filesuffix in psnexfiles:
+<<<<<<< Updated upstream
+=======
+        # print("Lorenzo is the best")
+>>>>>>> Stashed changes
         return loadPSNEXfile(filepath, uffobj)
     
     else:
