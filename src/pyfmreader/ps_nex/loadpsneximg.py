@@ -34,42 +34,8 @@ valid_vars_scalings = [
     'Force', 'volts'
 ]
 
-def get_channel_conversion_factors(tif_tags_list, channel_name):
-    """
-    Get the conversion factors for each channel in the image.
-    At the moment (last review 20/07/2022) these factors are stored
-    in the tiff tags towards the end. To get this parameters the last
-    7 tags are fetched and the information is extracted as follows:
-    Example conversion factors:
-    ['Calibrated height', 'SignedInteger', 'm', 'LinearScaling', -1.6953501835001456e-16, 6.218212395112357e-06]
-    [name of the calibration, value type, units, scaling mode, multiplier, offset]
-            
-            Parameters:
-                    tif_tags_list (list): list containing the page tags.
-            
-            Returns:
-                    mult (float): multiplier to scale the raw data into the right units.
-                    offset (float): offset to scale the raw data into the right units.
-    """
-    mult, offset = None, None
-    scaling_type = None
-    last_7_tags = tif_tags_list[-7:]
-    for i, tag in enumerate(last_7_tags):
-        if tag not in valid_scalings:
-            continue
-        scaling_type = last_7_tags[i]
-        mult = last_7_tags[i+4]
-        offset = last_7_tags[i+5]
-        break
-    # print(channel_name, scaling_type)
-    # print(last_7_tags)
-    if (channel_name in height_channels and scaling_type not in valid_height_scalings) or\
-         (channel_name in valid_vars_channels and scaling_type not in valid_vars_scalings):
-         mult, offset = None, None
-    # print(mult, offset)
-    return mult, offset
 
-def loadJPKimg(UFF):
+def loadpsneximg(UFF):
     """
     Returns the contents of the data-image file inside the JPK file.
     This file is structured in a tiff like strucure, with each channel
@@ -94,13 +60,11 @@ def loadJPKimg(UFF):
         with tifffile.TiffFile(bytes_io) as tif:
             data = {}
             channel_name = None
-            # each row is of the map is a tiff page 
             for page in tif.pages[1:]:
                 tif_tags = [tag.value for tag in page.tags.values()]
                 # print(tif_tags)
                 for tag in tif_tags:
                     # print(tag)
-                    
                     with contextlib.suppress(TypeError):
                         if 'algorithm.object-name.base-object-name.fancy-name' in tag:
                             channel_name = tag.split('\n')[0].split(':')[1].replace(' ', '')
@@ -114,11 +78,6 @@ def loadJPKimg(UFF):
                 if isinstance(mult, float) and isinstance(offset, float):
                     image = page.asarray()
                     data[channel_name] = image.astype(np.int64) * mult + offset
-
-    print (f"Loaded {len(data)} channels from JPK image file.")
-    print (f"Channels: {list(data.keys())}")
-    print (f"Image shape: {data[channel_name].shape}")
-    print (data)
     return data
 
 def computeJPKPiezoImg(UFF):

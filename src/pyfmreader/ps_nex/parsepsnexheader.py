@@ -36,9 +36,12 @@ def parsePSNEXheader(filepath):
     file_metadata["file_path"] = filepath
     file_metadata["Entry_filename"] = os.path.basename(filepath)
     file_metadata["file_size_bytes"] = os.path.getsize(filepath)
-    file_metadata["file_id"] = ps_nex_meta["filename"]
+    # file_metadata["file_id"] = ps_nex_meta["filename"]
     file_metadata["Entry_date"] = ps_nex_meta.get("date")
     file_metadata["Entry_tot_nb_curve"] = int(ps_nex_meta.get("number_consecutive_scans"))
+
+    #Channel names stuff #added by Lorenzo
+    file_metadata
 
     #Software version control
     file_metadata["psnex_file_format_version"] = ps_nex_meta.get("TDMS_HSFS_file_version")
@@ -49,6 +52,10 @@ def parsePSNEXheader(filepath):
     file_metadata["instrument_clorckrate_(Mhz)"] = float(ps_nex_meta.get("instrument_clorckrate_(Mhz)"))
     file_metadata["instrument_tick_time_(us)"] = float(ps_nex_meta.get("instrument_tick_time_(us)"))
     file_metadata["instrument_tick_time_(s)"] = file_metadata["instrument_tick_time_(us)"]* 10**-6
+    #since enzo did it at 500kHz 12.03.2025
+    #TODO check this
+    #file_metadata["instrument_tick_time_(s)"] = 0.025* 10**-6
+
 
     file_metadata["instrument_model"] = ps_nex_meta.get("instrument_model")
     file_metadata["instrument_scanner"] = ps_nex_meta.get("instrument_scanner")
@@ -84,6 +91,7 @@ def parsePSNEXheader(filepath):
         file_metadata[f"system_{ax}_piezo_sensitivity_(nm/V)"] = float(ps_nex_meta.get(f"system_{ax}_piezo_sensitivity_(nm/V)"))
 
     #mapping stuff 
+    #TODO add num of pixesl and pixel size
     file_metadata["mapping_bool"] = bool(ps_nex_meta.get("mapping_(bool)"))
     if file_metadata["mapping_bool"]:
     
@@ -114,7 +122,7 @@ def parsePSNEXheader(filepath):
     file_metadata["cantilever_quality_factor"] = float(ps_nex_meta.get("cantilever_quality_factor"))
     return file_metadata
 
-def parsePSNEXsegmentheader(filepath,curve_properties,segment_id,curve_index=0):
+def parsePSNEXsegmentheader(filepath, curve_properties, segment_id, UFF, curve_index=0):
     """
     Function used to load the metadata of each segment for each force curve of a JPK file.
 
@@ -129,10 +137,22 @@ def parsePSNEXsegmentheader(filepath,curve_properties,segment_id,curve_index=0):
     """
     tdms_file_ps_nex = TdmsFile.read_metadata(filepath)  
 
+    # Get Proper channel name to read for Deflection and Zposition
+    # Deflection is always 1st channel, and second is Zpiezo. 
+    # Note that chirp data will be present in mockout channel
+    # Added by lorenzo 
+    UFF.filemetadata['height_channel_key'] = tdms_file_ps_nex.groups()[0].channels()[1].name
+    UFF.filemetadata['deflection_chanel_key'] = tdms_file_ps_nex.groups()[0].channels()[0].name
+    # Check if deflection is in the channel name
+    UFF.filemetadata['found_vDeflection'] = contains_word(UFF.filemetadata['deflection_chanel_key'], 'deflection')
+    # UFF.filemetadata['found_vDeflection'] = True
+    # check if zpiezo is in the channel name
     for group in tdms_file_ps_nex.groups():
         ps_nex_meta = (group.properties)
 
     segment_metadata = {}
+
+    
     tick_time_s = float(ps_nex_meta.get("instrument_tick_time_(us)"))* 10**-6
     z_stage_sensitivity = float(ps_nex_meta.get('system_Z_stage_piezo_sensitivity_(nm/V)'))
     segment_metadata["tick_time_s"] =float(ps_nex_meta.get("instrument_tick_time_(us)"))* 10**-6
@@ -146,7 +166,7 @@ def parsePSNEXsegmentheader(filepath,curve_properties,segment_id,curve_index=0):
     segment_metadata[f"segment_{segment_id}_initial_deflection_(V)"] =float(ps_nex_meta.get(f"segment_{segment_id}_initial_deflection_(V)"))
     
     segment_metadata[f"segment_{segment_id}_nb"] = int(ps_nex_meta.get(f"segment_{segment_id}_nb"))
-    segment_metadata[f"segment_{segment_id}_nb_points_(points)"] =float(ps_nex_meta.get(f"segment_{segment_id}_nb_points_(points)"))
+    segment_metadata[f"segment_{segment_id}_nb_points_(points)"] =int(ps_nex_meta.get(f"segment_{segment_id}_nb_points_(points)"))
  
     segment_metadata[f"segment_{segment_id}_relative_setpoint_(bool)"] =bool(ps_nex_meta.get(f"segment_{segment_id}_relative_setpoint_(bool)"))
     segment_metadata[f"segment_{segment_id}_sampling_rate_(S/s)"] =float(ps_nex_meta.get(f"segment_{segment_id}_sampling_rate_(S/s)"))
@@ -177,3 +197,16 @@ def parsePSNEXsegmentheader(filepath,curve_properties,segment_id,curve_index=0):
     curve_properties[curve_index].update({segment_id: segment_metadata})
     
     return curve_properties
+
+def contains_word(sentence, word):
+    """
+    Check if a word is present in a sentence, case-insensitive.
+
+    Parameters:
+        sentence (str): The sentence to search within.
+        word (str): The word to search for.
+
+    Returns:
+        bool: True if the word is found in the sentence, False otherwise.
+    """
+    return word.lower() in sentence.lower()
